@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>October War Bot for Kids 🎖️</title>
+<style>
+.chat-container {
+    
+background: white;
+border-radius: 20px;
+max-width: 800px;
+margin: auto;
+padding: 190px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Message bubbles */
+.message {
+margin: 10px 0;
+padding: 12px 18px;
+border-radius: 20px;
+max-width: 70%;
+animation: fadeIn 0.5s ease-in;
+}
+
+.bot-message {
+background: #f8f9fa;
+color: #333;
+margin-right: auto;
+border: 2px solid #eee;
+ }
+
+ .user-message {
+ background: #ce1126;
+ color: white;
+ margin-left: auto;
+ }
+
+ /* input area */
+ .input-container {
+ display:flex;
+ gap: 10px;
+ margin-top: 20px;
+ }
+
+ #user-input {
+ flex: 1;
+ padding: 15px;
+ border: 2px solid #ce1126;
+ border-radius: 12px;
+ font-size: 16px;
+ }
+
+ #send-btn {
+ background: #ce1126;
+ color: white;
+ border:none;
+ padding: 15px 25px;
+ border-radius: 12px;
+ cursor:pointer;
+ transition: transform 0.2s;
+}
+
+#send-btn:hover {
+transform: scale(1.05);
+background: #a50d1e;
+}
+
+/* Animation */
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile-friendly */
+@media (max-width: 768px) {
+.chat-container {
+padding: 10px;
+}
+.message {
+max-width: 85%;
+}
+}
+</style>
+</head>
+<body>
+    <header>
+        <a class="logo" data-lang="October">acto magamra</a>
+       <nav class="navigation"><b>       <a href="index2.html">Influential Figures</a>
+        <a href="12.html">Crossing the Bar Lev Line</a>
+        <a href="22.html">October Secrets</a>
+        <a href="32.html">Crossing the Game</a>
+        <a href="gpt2.html">alawy</a>
+        <a href="gpt.html">العربيه</a></b>
+       </nav>
+       </header>
+
+<div class="chat-container">
+<div id="chat-area"></div>
+<div class="input-container">
+<input type="text" id="user-input" placeholder="Write your question here...">
+<button id="send-btn">Send 🚀</button>
+</div>
+
+<script>
+// Questions and Answers Database
+const warKnowledge = {
+"What is the October War?": "The Great Liberation War 🎖️ that liberated Sinai in 1973 led by Egyptian and Arab heroes!",
+"Who is the hero of crossing the canal?": "The heroic engineer Ahmed Hamdy, the owner of the water hoses idea 💦",
+"How long did the war last?": "19 days from October 6 to 25, 1973 ⏳",
+"What is the Bar Lev Line?": "It was a huge earthen dam that our heroes destroyed with water hoses 💥",
+"Why was it called the October War?": "Because it started on October 6 (Ramadan 10) 🌙, which is the Jewish Yom Kippur.",
+"Did women participate in the war?": "Yes! Like the nurse **Shafika Muhammad** who helped the soldiers 🏥.",
+"What is the Bar Lev Line":"A huge earthen dam 🏔️ built by Israel on the banks of the Suez Canal, which our soldiers destroyed with water.",
+"How did the soldiers cross the Suez Canal":"Using **2000 water hoses** 💧 to make holes in the line.",
+"What is the most famous song about the war": "Ahmed Ya Qanawi🎶  sung by the artist **Abdel Halim Hafez",
+"*How many Egyptian soldiers participated?**": "About 800 thousand soldiers 🪖, with 2000 tanks",
+"Did the planes participate in the war?":"Yes! The Egyptian pilots 🛩️ carried out successful air strikes.",
+"default": "Ask me about weapons or strategies! 🪖"
+};
+
+        // العناصر الرئيسية
+        const chatArea = document.getElementById('chat-area');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        // إضافة رسالة جديدة
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.innerHTML = text + (isUser ? '' : ' <span class="emoji">✨</span>');
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // معالجة الإرسال
+        function handleSend() {
+            const question = userInput.value.trim();
+            
+            if (!question) return;
+            
+            addMessage(question, true);
+            
+            setTimeout(() => {
+                const answer = warKnowledge[question] || warKnowledge.default;
+                addMessage(answer, false);
+            }, 800);
+            
+            userInput.value = '';
+        }
+
+        // الأحداث
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
+        // رسالة ترحيبية
+        setTimeout(() => {
+            addMessage("Hello i am litlle bot i know anything about october war", false);
+        }, 500);
+    </script>
+</body>
+</html>

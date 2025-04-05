@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>بوت حرب أكتوبر للأطفال 🎖️</title>
+    <style>
+        /* التنسيقات العامة */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #f0f8ff, #e1f5fe);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* تصميم الهيدر */
+        .header {
+            background: #ce1126;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        /* منطقة الشات الرئيسية */
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            margin: auto;
+            padding: 190px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* فقاعات الرسائل */
+        .message {
+            margin: 10px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 70%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .bot-message {
+            background: #f8f9fa;
+            color: #333;
+            margin-right: auto;
+            border: 2px solid #eee;
+        }
+
+        .user-message {
+            background: #ce1126;
+            color: white;
+            margin-left: auto;
+        }
+
+        /* منطقة الإدخال */
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ce1126;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        #send-btn {
+            background: #ce1126;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #send-btn:hover {
+            transform: scale(1.05);
+            background: #a50d1e;
+        }
+
+        /* الرسوم المتحركة */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* تصميم للجوال */
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 10px;
+            }
+            .message {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a class="logo" data-lang="اكتوبر">اكتو مغامره</a> 
+        <nav class="navigation">
+
+            <a href="index.html">شخصيات مؤثرة</a>
+            <a href="1.html">عبور خط بارليف</a>
+            <a href="2.html">اسرار اكتوبر</a>
+            <a href="3.html">عمل لعبه</a>
+            <a href="gpt.html">علاوي</a>
+            <a href="gpt2.html">english</a>
+        </nav>
+    </header>
+    <div class="mn">    <div class="chat-container">
+        <div id="chat-area"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="اكتب سؤالك هنا...">
+            <button id="send-btn">إرسال 🚀</button>
+        </div>
+    </div>
+</div>
+    <script>
+        // قاعدة بيانات الأسئلة والأجوبة
+        const warKnowledge = {
+            "ما هي حرب أكتوبر؟": "حرب التحرير الكبرى 🎖️ التي حررت سيناء عام 1973 بقيادة الأبطال المصريين والعرب!",
+            "من هو بطل عبور القناة؟": "المهندس البطل أحمد حمدي صاحب فكرة الخراطيم المائية 💦",
+            "كم استمرت الحرب؟": "19 يومًا من 6 إلى 25 أكتوبر 1973 ⏳",
+            "ما هو خط بارليف؟": "كان سدًا ترابيًا ضخمًا دمره أبطالنا بالخراطيم المائية 💥",
+"لماذا سميت بحرب أكتوبر" :"لأنها بدأت في 6 أكتوبر (10 رمضان) 🌙، وهو يوم عيد الغفران اليهودي.",
+ "هل شاركت النساء في":"الحرب نعم! مثل الممرضة **شفيقة محمد** التي ساعدت الجنود 🏥.",
+ "ما هو خط بارليف":"سد ترابي ضخم 🏔️ بنته إسرائيل على ضفة قناة السويس، دمره جنودنا بالماء.",   
+"كيف عبر الجنود قناة السويس":" باستخدام **الـ 2000 خرطوم مياه** 💧 لصنع ثغرات في الخط.", 
+"ما أشهر أغنية عن الحرب ": "أحمد يا قناوي🎶 التي تغنى بها الفنان **عبد الحليم حافظ**. ",
+"*كم عدد الجنود المصريين المشاركين؟**":  "حوالي 800 ألف جندي 🪖، مع 2000 دبابة. ",
+"هل شاركت الطائرات في الحرب":"نعم! الطيارون المصريون 🛩️ نفذوا غارات جوية ناجحة. ",
+            "default": "اسألني عن الأسلحة أو الاستراتيجيات! 🪖"
+        };
+
+        // العناصر الرئيسية
+        const chatArea = document.getElementById('chat-area');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+
+        // إضافة رسالة جديدة
+        function addMessage(text, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            messageDiv.innerHTML = text + (isUser ? '' : ' <span class="emoji">✨</span>');
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        // معالجة الإرسال
+        function handleSend() {
+            const question = userInput.value.trim();
+            
+            if (!question) return;
+            
+            addMessage(question, true);
+            
+            setTimeout(() => {
+                const answer = warKnowledge[question] || warKnowledge.default;
+                addMessage(answer, false);
+            }, 800);
+            
+            userInput.value = '';
+        }
+
+        // الأحداث
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
+        // رسالة ترحيبية
+        setTimeout(() => {
+            addMessage("مرحبًا! أنا البوت الصغير أعرف كل شيء عن حرب أكتوبر. اسألني 🎖️", false);
+        }, 500);
+    </script>
+</body>
+</html>
